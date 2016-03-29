@@ -1,3 +1,5 @@
+import pytest
+
 import kostka
 
 reload(kostka)
@@ -14,12 +16,25 @@ def test_1_6():
 def test_vyber_simple():
     # .5 == 0.5
     inp = [.5, 0, .5]
-    ret = kostka.vyber(inp)
-    
-    assert int(ret) == ret
-    assert 0 <= ret < len(inp)
-    
-    
+ 
+    for _ in range(100):
+        ret = kostka.vyber(inp)
+        assert int(ret) == ret
+        assert 0 <= ret < len(inp)
+   
+           
+def test_vyber_simple2():
+    # .5 == 0.5
+    inp = [.5, 0, .5]
+    generator = kostka.factory(inp)
+    for _ in range(100):
+        ret = generator()
+        #ret = kostka.vyber(inp)
+        
+        assert int(ret) == ret
+        assert 0 <= ret < len(inp) 
+   
+     
 def test_vykresli():
     inp = [.5, 0, .5]
     zaznam = [0, 0, 0]
@@ -29,6 +44,23 @@ def test_vykresli():
     print(zaznam)
     # assert 0
 
+
+# Potrebuje "import pytest"
+def test_nuly():
+    inp = [0, 0, 0]
+    with pytest.raises(ValueError):
+        kostka.vyber(inp)
+        
+        
+def test_nuly2():
+    inp = [0, 0, 0]
+    try:
+        kostka.vyber(inp)
+        assert False, "Nebyla vyhozena vyjimka"
+    except ValueError as exc:
+        print(exc.message)
+        # assert False, "je to OK"
+    
     
 def test_vyber_adv():
     inp = [.5, 0, .5]
