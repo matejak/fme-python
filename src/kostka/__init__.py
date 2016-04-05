@@ -37,18 +37,18 @@ def factory(inp):
     
           
 class Kostka(object):
-    def __init__(self, kolik):
+    def __init__(self, kolik, psti=None):
         self._def_obor = range(1, kolik + 1)
-        self._pravdepodobnosti = def2prob(kolik)
-        
+        if psti is None:
+            self._pravdepodobnosti = def2prob(kolik)
+        else:
+            self._pravdepodobnosti = psti
+            
         self._generator = factory(self._pravdepodobnosti)
         
     def hodit(self):
         idx = self._generator()
         ret = self._def_obor[idx]
-        # zfalsovani kostky
-        if ret == 2:
-            ret = 6
         return ret	
         
 
